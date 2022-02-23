@@ -6,64 +6,104 @@ import "./App.css";
 
 import AppRouter from "./routers/AppRouter";
 import reportWebVitals from "./reportWebVitals";
+import { createStore, combineReducers } from "redux";
+import { v4 as uuid } from "uuid";
 
-import { createStore } from "redux";
-const initialState = {
-  count: 0,
-};
+// action creater
 
-const store = createStore((state = initialState, action) => {
-  // console.log("store created");
+const addBlog = ({ title = "", description = "", dateAdded = 0 }) => ({
+  type: "ADD_BLOG",
+  blog: {
+    id: uuid(),
+    title: title,
+    description: description,
+    dateAdded: dateAdded,
+  },
+});
+
+const removeBlog = ({ id }) => ({
+  type: "REMOVE_BLOG",
+  id: id,
+});
+
+const editBlog = (id, updates) => ({
+  type: "EDIT_BLOG",
+  id,
+  updates,
+});
+
+const blogState = [];
+
+const blogReducer = (state = blogState, action) => {
   switch (action.type) {
-    case "INCREMENT":
-      const incrementBy =
-        typeof action.incrementBy === "number" ? action.incrementBy : 1;
-
-      return {
-        count: state.count + incrementBy,
-      };
-    case "DECEREMENT":
-      return {
-        count: state.count - 1,
-      };
-    case "RESET":
-      return {
-        count: 0,
-      };
+    case "ADD_BLOG":
+      console.log("addblogaction", action); //{type: 'ADD_BLOG', blog: {…}}
+      console.log("addblogactiontype", action.blog); //{title: 'blog title 1', description: 'blog description 1', dateAdded: 0, id: ƒ}
+      return [...state, action.blog];
+    case "REMOVE_BLOG":
+      console.log("remove", action);
+      return state.filter(({ id }) => {
+        return id !== action.id;
+      });
+    case "EDIT_BLOG":
+      return state.map((blog) => {
+        if (blog.id === action.id) {
+          return {
+            ...blog,
+            ...action.updates,
+          };
+        } else {
+          return blog;
+        }
+      });
     default:
       return state;
   }
-});
+};
+
+const authState = {};
+
+const authReducer = (state = authState, action) => {
+  switch (action.type) {
+    default:
+      return state;
+  }
+};
+
+const store = createStore(
+  combineReducers({
+    blogs: blogReducer,
+    auth: authReducer,
+  })
+);
 
 store.subscribe(() => {
-  console.log(store.getState()); // ne zaman dispatch action larsa state e o zaman calisir
+  console.log(store.getState());
 });
 
-// getState
-//console.log(store.getState());
+const blog1 = store.dispatch(
+  addBlog({ title: "blog title 1", description: "blog description 1" })
+);
+const blog2 = store.dispatch(
+  addBlog({
+    title: "blog title 2",
+    description: "blog description 2",
+    dateAdded: Date.now(),
+  })
+);
+//console.log("blog1", blog1); //{type: 'ADD_BLOG', blog: {…}}
+//console.log("blog1.blog", blog1.blog); // {title: 'blog title 1', description: 'blog description 1,id:124}
 
-// increament,decrement,reset=> action(state bilgisi uzerinde degisiklik yspamak istedigimiz tanimlayacagimiz obje)
+store.dispatch(removeBlog({ id: blog1.blog.id }));
 
-store.dispatch({
-  type: "INCREMENT",
-  incrementBy: 10,
-});
-store.dispatch({
-  type: "INCREMENT",
-});
-store.dispatch({
-  type: "RESET",
-});
-// store.dispatch({
-//   type: "DECEREMENT",
-// });
-
-//console.log(store.getState());
-
-//dispatch (leri actionla yolluyoruz verdigimiz talimat state icerisinde isleniyordu)
-
-//reducers ise state ile birlikte bir action bilgisi gonderdigimiz zaman pakaetlemesi reducerlara kalmis,
-// bir kactane reducer i alip store a gonderebiliyoruz
+// birinci parametrede state uzerinden hangi parametre ile guncellicez onu bildiriyoruz
+// ikincisinde ise yeni gondercegimiz bilgileri burda yazabiliriz.
+store.dispatch(
+  editBlog(blog2.blog.id, {
+    title: "updated blog  title",
+    description: "update blog description",
+  })
+);
 
 ReactDOM.render(<AppRouter />, document.getElementById("root"));
 
