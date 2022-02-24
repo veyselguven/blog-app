@@ -24,7 +24,7 @@ firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
 // database uzerinden de set methoduyla json turunden bir bilgiyi buraya yazabiliyoruz
-
+// kayit ekleme
 database
   .ref()
   .set({
@@ -41,6 +41,86 @@ database
   .catch((e) => {
     console.log("Error", e);
   });
+
+console.log("application is running ");
+
+// burda update yerine set kullanmis olsak diger alanlar silir sadece title kalir
+// ama simdi sadece title i update yapiyor
+database.ref().update({
+  title: "blog title 2",
+  //   authors: {
+  //     name: "Hatun", // eger sadece name alanini yazarsak surname alanini siler o
+  //     //yuzden surname inde kaybolmasini istemiyorsak yazmak zorundayiz veya
+  //     //bu sekilde yazmak yerine assagidaki ornege bak
+  //     surname: "Basbaydar",
+  //   },
+
+  "authors/name": "Hatun",
+  imageUrl: "1.jpg", // olmayan birseyide burda ekleyebiliriz buda guncelllemenin bir parcasi
+});
+
+// veya bunu ayri yazmak yerine yukarida yazabiliriz. mesala simdi author alaninda yapicam yukarida
+database.ref().update({
+  description: "description is updated",
+});
+
+/* 
+fad
+fads
+fwasdv
+fadv
+dafssf
+*/
+
+///----------------------------------
+///----------------------------------
+///----------------------------------
+
+// alternatif silme islemi
+// sadece title i siler
+//database.ref("title").set(null);
+// hepsini siler
+//database.ref().set(null);
+///-----------------------
+///-----------------------
+///-----------------------
+
+//deleted islemi
+
+// database
+//   .ref("title")
+//   .remove()
+//   .then(() => {
+//     console.log("title is deleted");
+//   })
+//   .catch((e) => {
+//     console.log(e);
+//   });
+
+// database
+//   .ref("authors/name")
+//   .remove()
+//   .then(() => {
+//     console.log("author is deleted");
+//   })
+//   .catch((e) => {
+//     console.log(e);
+//   });
+
+// hepsini silmek istersek
+
+// database
+//   .ref("")
+//   .remove()
+//   .then(() => {
+//     console.log("all information deleted");
+//   })
+//   .catch((e) => {
+//     console.log(e);
+//   });
+//--------------------------------
+//--------------------------------
+//--------------------------------
 
 //databse ref demekle  biz root kaydini almis oluyoruz
 //database.ref().set("New register");
