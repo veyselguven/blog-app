@@ -16,7 +16,7 @@ import "./firebase/fairbaseConfig";
 const store = configureStore();
 
 store.subscribe(() => {
-  console.log(store.getState());
+  // console.log(store.getState());
 });
 
 const blog1 = store.dispatch(
