@@ -9,11 +9,17 @@ export default class BlogForm extends Component {
   // icerisine set edilcek  ve bu state bilgisinide biz istedigimiz zaman redux icersine bir buton araciligiyla gondericez
   // dedigimiz gibi bu state sadece blog forma ait olan kendi componenti icersinde bulunan bir state bilgisi olucak
 
-  state = {
-    title: "",
-    description: "",
-    error: "",
-  };
+  // EditBlogPage de gonderdigimiz propsu burda tutmamiz icin artik props parametresine burda ihtiyacimiz var
+  // yani constructor seyinin uyguluyoruz.
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      title: props.blog ? props.blog.title : "",
+      description: props.blog ? props.blog.description : "",
+      error: "",
+    };
+  }
 
   // simdi bize gelecek olan state bilgisi icerisindeki alanlarini bir blok objesi olarak
   // ilgili redux icersindeki blog listesi icerisine eklememiz gerekiyor
