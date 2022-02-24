@@ -13,6 +13,10 @@ const Header = () => {
         Blogs
       </NavLink>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <NavLink to="/create" activeClassName="active">
+        Create
+      </NavLink>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <NavLink to="/contact" activeClassName="active">
         Contact
       </NavLink>
