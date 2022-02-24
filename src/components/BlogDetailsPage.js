@@ -1,7 +1,22 @@
 import React from "react";
+import { connect } from "react-redux";
+import BlogDetailsItem from "./BlogDetailsItem";
 
 const BlogDetailsPage = (props) => {
-  return <div>Blog Details :{props.match.params.id}</div>;
+  // console.log("blogDetailsProps", props);
+  return (
+    <div>
+      <BlogDetailsItem {...props.blog} />
+    </div>
+  );
 };
 
-export default BlogDetailsPage;
+const mapStateToProps = (state, props) => {
+  return {
+    blog: state.blogs.find((blog) => {
+      return blog.id === props.match.params.id;
+    }),
+  };
+};
+
+export default connect(mapStateToProps)(BlogDetailsPage);
