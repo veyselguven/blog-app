@@ -11,6 +11,7 @@ import reportWebVitals from "./reportWebVitals";
 import configureStore from "./store/configureStore";
 
 import { addBlog, removeBlog, editBlog } from "./actions/blogs";
+import "./firebase/fairbaseConfig";
 
 const store = configureStore();
 
